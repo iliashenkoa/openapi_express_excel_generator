@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: openapi-express-excel-generator
+  version: 1.0.3
+servers:
+  - url: /api
+    description: The develop API server
+tags:
+  - name: common
+    description: API for operations about anything
+paths:
+  /data:
+    get:
+      tags:
+        - common
+      summary: Get data in xlsx format
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          enum:
+            - 100
+            - 101
+            - 200
+            - 201
+            - 300
+            - 301
+            - 400
+            - 503
+            - 504
+            - 505
+            - 506
+            - 507
+          format: int32
+          type: integer
